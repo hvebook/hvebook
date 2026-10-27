@@ -1,0 +1,128 @@
+site_name: "Sổ tay HV & Sạc xe điện | EV HV & Charging Handbook"
+site_description: "Tài liệu tra cứu song ngữ về hệ thống cao áp, chuẩn sạc CCS1/CCS2/GB/T/NACS và giao tiếp V2G"
+site_author: "Trường"
+copyright: "Tài liệu tham khảo nội bộ. Đối chiếu tiêu chuẩn gốc trước khi dùng cho thiết kế."
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: vi
+  font:
+    text: Be Vietnam Pro
+    code: JetBrains Mono
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Chế độ tối
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Chế độ sáng
+  features:
+    - navigation.top
+    - navigation.tracking
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+  icon:
+    logo: material/ev-station
+
+plugins:
+  - search:
+      lang:
+        - en
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - abbr
+  - def_list
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex:
+      generic: true
+
+hooks:
+  - hooks/hide_toc.py
+
+extra_css:
+  - stylesheets/tree-nav.css
+  - stylesheets/custom.css
+
+extra_javascript:
+  - javascripts/tree-nav.js
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+
+nav:
+  - Trang chủ: index.md
+  - "1. Hệ thống HV":
+      - hv/index.md
+      - Kiến trúc HV (Architecture): hv/kien-truc.md
+      - Pin & BMS (Battery & BMS): hv/pin-bms.md
+      - Contactor & Precharge: hv/contactor-precharge.md
+      - An toàn HV (HV Safety): hv/an-toan.md
+      - OBC & DC-DC: hv/obc-dcdc.md
+  - "2. Cơ bản về sạc":
+      - sac-co-ban/index.md
+      - Chế độ sạc (Charging Modes): sac-co-ban/che-do-sac.md
+      - Control Pilot (CP): sac-co-ban/control-pilot.md
+      - Proximity Pilot (PP): sac-co-ban/proximity-pilot.md
+  - "3. Chuẩn đầu nối":
+      - chuan/index.md
+      - CCS2 (Combo 2): chuan/ccs2.md
+      - CCS1 (Combo 1): chuan/ccs1.md
+      - GB/T: chuan/gbt.md
+      - NACS (SAE J3400): chuan/nacs.md
+      - Bảng so sánh (Comparison): chuan/so-sanh.md
+  - "4. Giao tiếp":
+      - giao-tiep/index.md
+      - PLC & SLAC: giao-tiep/plc-slac.md
+      - DIN SPEC 70121: giao-tiep/din70121.md
+      - ISO 15118-2: giao-tiep/iso15118-2.md
+      - ISO 15118-20: giao-tiep/iso15118-20.md
+      - GB/T 27930 (CAN): giao-tiep/gbt27930.md
+      - Plug & Charge (PKI): giao-tiep/plug-and-charge.md
+  - "5. V2G":
+      - v2g/index.md
+      - Tổng quan V2X: v2g/tong-quan.md
+      - AC vs DC V2G: v2g/ac-dc.md
+      - Chuẩn giao tiếp V2G: v2g/chuan-giao-tiep.md
+  - "6. Chẩn đoán lỗi":
+      - chan-doan/index.md
+      - Lỗi thường gặp (Common Faults): chan-doan/loi-thuong-gap.md
+      - Công cụ (Tools): chan-doan/cong-cu.md
+  - Phụ lục:
+      - Thuật ngữ Anh–Việt (Glossary): phu-luc/thuat-ngu.md
+      - Danh mục tiêu chuẩn (Standards): phu-luc/tieu-chuan.md
+      - Tài liệu tham khảo (References): phu-luc/tham-khao.md

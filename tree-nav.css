@@ -1,0 +1,196 @@
+/* =========================================================
+   Cây thư mục bên trái kiểu Windows Explorer
+   Windows-Explorer-style collapsible tree for the left sidebar
+   ========================================================= */
+
+:root {
+  --tree-folder: #e8a317;
+  --tree-file: #5c6bc0;
+  --tree-guide: rgba(0, 0, 0, 0.12);
+  --tree-hover: rgba(63, 81, 181, 0.08);
+  --tree-active-bg: rgba(63, 81, 181, 0.14);
+  --icon-folder: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8z"/></svg>');
+  --icon-folder-open: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 20H4a2 2 0 0 1-2-2V6c0-1.11.89-2 2-2h6l2 2h7a2 2 0 0 1 2 2H4v10l2.14-8h17.07l-2.28 8.5c-.23.87-1.01 1.5-1.93 1.5"/></svg>');
+  --icon-file: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2h7v5h5v11H6zm2 8v2h8v-2zm0 4v2h5v-2z"/></svg>');
+  --icon-home: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>');
+}
+
+[data-md-color-scheme="slate"] {
+  --tree-folder: #f0b429;
+  --tree-file: #9fa8da;
+  --tree-guide: rgba(255, 255, 255, 0.14);
+  --tree-hover: rgba(159, 168, 218, 0.10);
+  --tree-active-bg: rgba(159, 168, 218, 0.18);
+}
+
+/* ---------- Thanh công cụ Mở / Thu gọn ---------- */
+.tree-toolbar {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.4rem 0.6rem 0.6rem 0.6rem;
+  border-bottom: 1px solid var(--tree-guide);
+  margin-bottom: 0.4rem;
+}
+.tree-toolbar button {
+  flex: 1;
+  font: inherit;
+  font-size: 0.62rem;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--tree-guide);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  cursor: pointer;
+}
+.tree-toolbar button:hover {
+  background: var(--tree-hover);
+  color: var(--md-accent-fg-color);
+}
+
+/* ---------- Bố cục: cây sát mép trái, không có cột mục lục ---------- */
+/* Layout: tree flush left, no right-hand TOC column */
+.md-grid {
+  max-width: none;
+}
+.md-sidebar--secondary,
+.md-nav--primary .md-nav--secondary,
+.md-nav--primary label.md-nav__link[for="__toc"] {
+  display: none !important;
+}
+.md-nav--primary label.md-nav__link[for="__toc"] ~ a.md-nav__link {
+  display: flex !important;
+}
+
+/* Chỉ áp dụng dạng cây trên màn hình rộng (desktop) */
+@media screen and (min-width: 76.25em) {
+
+  .md-main__inner {
+    margin-top: 0;
+  }
+  .md-sidebar--primary {
+    width: 15.5rem;
+    padding-top: 0.8rem;
+    border-right: 1px solid var(--tree-guide);
+    background: var(--md-default-bg-color);
+  }
+  .md-sidebar--primary .md-sidebar__scrollwrap {
+    margin: 0;
+  }
+  .md-sidebar--primary .md-nav--primary {
+    padding-left: 0.3rem;
+  }
+  .md-content {
+    max-width: 58rem;
+  }
+  .md-content__inner {
+    margin-left: 1.6rem;
+    margin-right: 1.6rem;
+  }
+
+  .md-nav--primary .md-nav__link {
+    margin-top: 0.1rem;
+    border-radius: 4px;
+  }
+
+  /* Dòng có thể bấm: đổi nền khi rê chuột */
+  .md-nav--primary .md-nav__item > a.md-nav__link:hover,
+  .md-nav--primary .md-nav__container:hover,
+  .md-nav--primary .md-nav__item--nested > label.md-nav__link:hover {
+    background: var(--tree-hover);
+  }
+
+  /* Trang đang mở: tô nền như mục được chọn trong Explorer */
+  .md-nav--primary .md-nav__item > a.md-nav__link--active {
+    background: var(--tree-active-bg);
+    font-weight: 600;
+  }
+
+  /* ---------- Mũi tên mở/đóng nằm bên trái ---------- */
+  .md-nav--primary .md-nav__container {
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+  .md-nav--primary .md-nav__container > label.md-nav__link {
+    order: -1;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0 0.1rem;
+  }
+  .md-nav--primary .md-nav__container > a.md-nav__link {
+    flex: 1 1 auto;
+    margin: 0;
+  }
+  /* Mục lồng không có trang index (ví dụ Phụ lục) */
+  .md-nav--primary .md-nav__item--nested > label.md-nav__link {
+    display: flex;
+    align-items: center;
+  }
+  .md-nav--primary .md-nav__item--nested > label.md-nav__link > .md-nav__icon {
+    order: -1;
+    margin-left: 0;
+    margin-right: 0.1rem;
+  }
+
+  /* ---------- Biểu tượng thư mục / tệp ---------- */
+  .md-nav--primary .md-ellipsis::before {
+    content: "";
+    display: inline-block;
+    width: 1.05em;
+    height: 1.05em;
+    margin-right: 0.4em;
+    vertical-align: -0.17em;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  /* Tệp (trang lá) */
+  .md-nav--primary .md-nav__item:not(.md-nav__item--nested) > a.md-nav__link .md-ellipsis::before {
+    background-color: var(--tree-file);
+    -webkit-mask-image: var(--icon-file);
+    mask-image: var(--icon-file);
+  }
+
+  /* Trang chủ */
+  .md-nav--primary > .md-nav__list > .md-nav__item:first-child > a.md-nav__link .md-ellipsis::before {
+    -webkit-mask-image: var(--icon-home);
+    mask-image: var(--icon-home);
+  }
+
+  /* Thư mục đóng */
+  .md-nav--primary .md-nav__item--nested > .md-nav__link .md-ellipsis::before {
+    background-color: var(--tree-folder);
+    -webkit-mask-image: var(--icon-folder);
+    mask-image: var(--icon-folder);
+  }
+  /* Thư mục mở */
+  .md-nav--primary .md-nav__item--nested > .md-nav__toggle:checked ~ .md-nav__link .md-ellipsis::before {
+    -webkit-mask-image: var(--icon-folder-open);
+    mask-image: var(--icon-folder-open);
+  }
+
+  /* Không gắn biểu tượng cho mục lục trong trang */
+  .md-nav--secondary .md-ellipsis::before {
+    content: none !important;
+  }
+
+  /* ---------- Đường dóng thụt lề ---------- */
+  .md-nav--primary .md-nav[data-md-level="1"] > .md-nav__list,
+  .md-nav--primary .md-nav[data-md-level="2"] > .md-nav__list {
+    margin-left: 0.55rem;
+    padding-left: 0.35rem;
+    border-left: 1px dotted var(--tree-guide);
+  }
+
+  /* Mục con đầu tiên là trang index của thư mục – đã gộp vào dòng thư mục nên ẩn đi */
+  .md-nav--primary .md-nav[data-md-level="1"] > .md-nav__list > .md-nav__item:first-child:empty {
+    display: none;
+  }
+
+  /* Hiệu ứng mở/đóng mượt */
+  .md-nav--primary .md-nav__item--nested > .md-nav {
+    transition: none;
+  }
+}

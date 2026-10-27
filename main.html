@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{#- Nội dung trang + dòng ghi chú bản quyền nhỏ ở cuối thẻ nội dung -#}
+{% block content %}
+  {{ super() }}
+  {% if config.copyright %}
+    <p class="page-copyright">{{ config.copyright }}</p>
+  {% endif %}
+{% endblock %}
+
+{#- Thay thanh footer lớn bằng 2 nút nhỏ nổi ở góc phải dưới -#}
+{% block footer %}
+  {% if page.previous_page or page.next_page %}
+    <nav class="mini-pager" aria-label="Chuyển trang / Page navigation">
+      {% if page.previous_page %}
+        <a class="mini-pager__btn" href="{{ page.previous_page.url | url }}"
+           title="Trang trước: {{ page.previous_page.title | striptags }}"
+           aria-label="Trang trước: {{ page.previous_page.title | striptags }}" rel="prev">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+          <span class="mini-pager__tip">{{ page.previous_page.title | striptags }}</span>
+        </a>
+      {% endif %}
+      {% if page.next_page %}
+        <a class="mini-pager__btn" href="{{ page.next_page.url | url }}"
+           title="Trang sau: {{ page.next_page.title | striptags }}"
+           aria-label="Trang sau: {{ page.next_page.title | striptags }}" rel="next">
+          <span class="mini-pager__tip">{{ page.next_page.title | striptags }}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+        </a>
+      {% endif %}
+    </nav>
+  {% endif %}
+{% endblock %}
